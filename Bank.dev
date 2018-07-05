@@ -1,6 +1,6 @@
 [Project]
-FileName=项目2.dev
-Name=bank
+FileName=Bank.dev
+Name=Bank
 Type=1
 Ver=2
 ObjFiles=
@@ -19,17 +19,17 @@ ObjectOutput=
 LogOutput=
 LogOutputEnabled=0
 OverrideOutput=0
-OverrideOutputName=项目2.exe
+OverrideOutputName=
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=scr
+Folders=src
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000000000000001000000
-UnitCount=7
+CompilerSettings=
+UnitCount=9
 
 [VersionInfo]
 Major=1
@@ -39,21 +39,21 @@ Build=0
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=1.0.0.0
+FileVersion=
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=
 ProductName=
-ProductVersion=1.0.0.0
+ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
 
 [Unit1]
 FileName=src\bank.h
 CompileCpp=1
-Folder=scr
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -61,9 +61,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=src\finance.h
+FileName=src\fiance.cpp
 CompileCpp=1
-Folder=scr
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -71,9 +71,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit3]
-FileName=src\user.h
+FileName=src\finance.h
 CompileCpp=1
-Folder=scr
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -81,26 +81,28 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=.gitignore
-Folder=bank
-Compile=0
-Link=0
+FileName=src\user.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=LICENSE
-Folder=bank
-Compile=0
-Link=0
+FileName=src\user.h
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=README.md
-Folder=bank
+FileName=.gitignore
+Folder=Bank
 Compile=0
 Link=0
 Priority=1000
@@ -108,8 +110,26 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
+FileName=LICENSE
+Folder=Bank
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=README.md
+Folder=Bank
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
 FileName=test.txt
-Folder=bank
+Folder=Bank
 Compile=0
 Link=0
 Priority=1000
