@@ -10,6 +10,7 @@ class Bank:public User
 {
     public:
       User *head;
+      User *log;
       User *ptr;        //备用指针
       int CBank();      //建立新的空银行数据库
       int Login();      //登陆，使ptr备用指针指向
