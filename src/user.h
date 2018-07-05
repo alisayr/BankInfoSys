@@ -11,12 +11,14 @@ class User : public Finance
   public:
     User *next;
     static int sum;                         //静态成员, 记录银行实时总人数
+    static int cardsum;                     //静态成员，用于生成卡号
     int name_change(string newname);        //修改姓名, 输入新姓名, 修改私有成员name
     int email_change(string newemail);      //修改邮箱, 输入新邮箱, 修改私有成员email
     int report_loss();                      //挂失 
     int change_passwd(string newpasswd);    //修改密码, 输入新密码, 修改私有成员cardpasswd
-    int forget_passwd(string email);        //找回密码, 输入邮箱，若正确则调用修改密码函数
-
+    int is_email(string isemail);          //找回密码, 输入邮箱，若正确则调用修改密码函数
+    //User(string name1, string email1, string passwd1, int status1);
+    //~User
   private:
     string name;    //姓名
     string email;   //邮箱
