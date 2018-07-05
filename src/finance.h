@@ -11,14 +11,22 @@
 using namespace std;
 class Time_Deposit //定期存款
 {
+public：
+	int time_deposit_add(double money,int time,double D_interest); //定期存款函数
+	int time_deposit_sub(double balance,double red_mo,double N_time);//定期取款函数 
+private： 
     double sum;  //存款数目
+    double D_interest;	//定期利息 
     int Date[3]; //存款日期
+    int Dtime;//约定时长 
+
 };
 class Finance : public Time_Deposit //金融类
 {
   public:
-    int deposit_add();         //活期存款函数成员, 记录
-    int deposit_add(int time); //定期存款函数
+    int demand_deposit_add(double money,double N_time);         //活期存款函数成员, 记录
+    
+    int demand_deposit_sub(double balance,double sub_money);//活期取款函数 
 
   private:
     double balance;         //总余额活期总存款利息, 用于计算活期利息
