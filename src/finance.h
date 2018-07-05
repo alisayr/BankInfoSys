@@ -1,6 +1,6 @@
 /*
     *Filename: finance.h
-    *Description£: finance declear
+    *Description?: finance declear
     *Author: matrix
     *Version: beta_0.1
     *Date: 2018.7.5 9:45
@@ -9,21 +9,21 @@
 #include <iostream>
 #include <string>
 using namespace std;
-class Time_Deposit //????
+class Time_Deposit //¶¨ÆÚ´æ¿î
 {
-    double sum;  //????
-    int Date[3]; //????
+    double sum;  //´æ¿îÊıÄ¿
+    int Date[3]; //´æ¿îÈÕÆÚ
 };
-class Finance : public Time_Deposit //???
+class Finance : public Time_Deposit //½ğÈÚÀà
 {
   public:
-    int deposit_add();         //????????, ??
-    int deposit_add(int time); //??????
+    int deposit_add();         //»îÆÚ´æ¿îº¯Êı³ÉÔ±, ¼ÇÂ¼
+    int deposit_add(int time); //¶¨ÆÚ´æ¿îº¯Êı
 
   private:
-    double balance;         //??????????, ????????
-    double demand_deposit;  //????
-    double demand_interest; //?????
+    double balance;         //×ÜÓà¶î»îÆÚ×Ü´æ¿îÀûÏ¢, ÓÃÓÚ¼ÆËã»îÆÚÀûÏ¢
+    double demand_deposit;  //»îÆÚ´æ¿î
+    double demand_interest; //»îÆÚ×ÜÀûÏ¢
 };
 
 #endif
