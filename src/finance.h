@@ -11,10 +11,10 @@
 using namespace std;
 class Time_Deposit //定期存款
 {
-public：
+public:
 	int time_deposit_add(double money,int time,double D_interest); //定期存款函数
 	int time_deposit_sub(double balance,double red_mo,double N_time);//定期取款函数 
-private： 
+private: 
     double sum;  //存款数目
     double D_interest;	//定期利息 
     int Date[3]; //存款日期
