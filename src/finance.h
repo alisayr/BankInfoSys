@@ -6,11 +6,10 @@
     *Date: 2018.7.5 9:45
 */
 #ifndef _FINANCE_H_
+#define _FINANCE_H_
 #include <iostream>
 #include <string>
 using namespace std;
-extern int StartDate[3];
-extern int PassDay;
 class Time_Deposit //¶¨ÆÚ´æ¿î
 {
 public:    

@@ -6,6 +6,7 @@
     *Date: 2018.7.5 10:02
 */
 #ifndef _USER_H_
+#define _USER_H_
 #include "finance.h"
 class User : public Finance
 {

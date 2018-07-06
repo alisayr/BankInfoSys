@@ -6,7 +6,10 @@
     *Date: 2018.7.5 11:18
 */
 #ifndef _FINANCE_CPP_
+#define _FINANCE_CPP_
 #include "finance.h"
+int StartDate[3];
+int PassDay;
 int Finance::settle_interest()
 {
 	demand_deposit += demand_interest; 	//活期利息加入活期存款
