@@ -5,10 +5,12 @@
     *Version: beta_0.1
     *Date: 2018.7.5 14:27
 */
+#ifndef _USER_CPP_
 #include "user.h"
+#include"finance.cpp"
 int User::sum = 0;     //初始化sum=0
 int User::cardsum = 100; //初始化cardsum=0
-/*
+
 User::User(string name1, string email1, string passwd1, int status1):name(name1),email(email1),cardpasswd(passwd1),status(status1)
 {
     sum++;
@@ -16,7 +18,7 @@ User::User(string name1, string email1, string passwd1, int status1):name(name1)
     cardid = cardsum;
     next=NULL;
 }
-*/
+
 int User::name_change(string newname)
 {
     name = newname;
@@ -56,3 +58,4 @@ int User::showcardid()
 {
     return cardid;
 }
+#endif

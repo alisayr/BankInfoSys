@@ -6,19 +6,19 @@
     *Date: 2018.7.6 8:08
 */
 #include "bank.h"
-/*
-int Bank::CBank()
+#include "user.cpp"
+int Bank::CBank(string passwdadm)
 {
-    head = new User;
+    head = new User("Admin", "admin@admin.com", passwdadm, 4);
     tail = head;
     ptr = head;
     
 }
-*/
+
 User *Bank::new_account(string name, string email, string passwd)
 {
     ptr = tail;
-    ptr->next = new User;
+    ptr->next = new User(name,email,passwd,1);
     ptr = ptr->next;
     return ptr;
 }
