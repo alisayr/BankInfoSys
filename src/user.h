@@ -5,6 +5,7 @@
     *Version: beta_0.1
     *Date: 2018.7.5 10:02
 */
+#ifndef _USER_H_
 #include "finance.h"
 class User : public Finance
 {
@@ -20,7 +21,10 @@ class User : public Finance
     string showname();                      //返回当前结点的姓名
     string showemail();                     //返回当前结点的邮箱
     int showcardid();
-    //User(string name1, string email1, string passwd1, int status1);
+    string showpasswd();
+    int showstatus();
+    int transfer_money(User *target,double money);
+    User(string name1, string email1, string passwd1, int status1);
     //~User
   private:
     string name;    //姓名
@@ -29,3 +33,4 @@ class User : public Finance
     string cardpasswd; //密码
     int status;     //状态,  1：正常,  2：挂失,  3：销户 , 4:管理员
 };
+#endif
