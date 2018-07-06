@@ -7,14 +7,14 @@
 */
 #include "user.h"
 int User::sum = 0;     //初始化sum=0
-int User::cardsum = 0; //初始化cardsum=0
+int User::cardsum = 100; //初始化cardsum=0
 /*
 User::User(string name1, string email1, string passwd1, int status1):name(name1),email(email1),cardpasswd(passwd1),status(status1)
 {
-    status=1;
     sum++;
     cardsum++;
     cardid = cardsum;
+    next=NULL;
 }
 */
 int User::name_change(string newname)
@@ -43,4 +43,16 @@ int User::is_email(string isemail)
         return 0;
     else
         return 1;
+}
+string User::showname()
+{
+    return name;
+}
+string User::showemail()
+{
+    return email;
+}
+int User::showcardid()
+{
+    return cardid;
 }

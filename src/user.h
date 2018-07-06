@@ -17,6 +17,9 @@ class User : public Finance
     int report_loss();                      //挂失 
     int change_passwd(string newpasswd);    //修改密码, 输入新密码, 修改私有成员cardpasswd
     int is_email(string isemail);          //找回密码, 输入邮箱，若正确则调用修改密码函数
+    string showname();                      //返回当前结点的姓名
+    string showemail();                     //返回当前结点的邮箱
+    int showcardid();
     //User(string name1, string email1, string passwd1, int status1);
     //~User
   private:
