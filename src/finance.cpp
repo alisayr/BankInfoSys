@@ -5,8 +5,8 @@
     *Version: beta_0.1
     *Date: 2018.7.5 11:18
 */
-#define"fiance.h"
-int Fiance::demand_deposit_add(double money,double N_time)//活期存款 
+#include"finance.h"
+int Finance::demand_deposit_add(double money,double N_time)//活期存款 
 {
 	balance+=demand_interest;	//活期余额 
 	demand_deposit=balance;	//活期存款 
@@ -15,9 +15,8 @@ int Fiance::demand_deposit_add(double money,double N_time)//活期存款
 	balance+=money;
 	return 1;
 }
-int Fiance::demand_deposit_sub(double balance,double demand_deposit,double sub_money)//活期取款 
+int Finance::demand_deposit_sub(double balance,double demand_deposit,double sub_money)//活期取款 
 {
-
 	if (balance>=sub_money)
 	{
 		balance-=sub_money;
@@ -27,7 +26,7 @@ int Fiance::demand_deposit_sub(double balance,double demand_deposit,double sub_m
 	if (balance<sub_money)
 		return 0;
 }
-int Fiance::time_deposit_add(double money,int time,double D_interest,int D_time)//定期存款 
+int Finance::time_deposit_add(double money,int time,double D_interest,int D_time)//定期存款 
 {
   	if (sum>0)
 		return 0;
@@ -37,9 +36,8 @@ int Fiance::time_deposit_add(double money,int time,double D_interest,int D_time)
 		sum=sum+D_interest*D_time*sum; 
 		return 1;
 	}
-	
 }
-int Fiance::time_deposit_sub(double time_deposit,double sub_money,double D_time,double N_time)//定期取款 
+int Finance::time_deposit_sub(double time_deposit,double sub_money,double D_time,double N_time)//定期取款 
 {
 	if(D_time>N_time)
 		return 0;
@@ -54,5 +52,17 @@ int Fiance::time_deposit_sub(double time_deposit,double sub_money,double D_time,
 		if (sum<sub_money)
 			return 0;
 	}
-
+}
+Time_Deposit::Time_Deposit()
+{
+        sum=0;
+        D_interest=0;
+        Date[3]={0,0,0};
+        D_time=0;
+}
+Finance::finance()
+{
+        balance=0;
+        demand_deposit=0;
+        demand_interest=0;
 }
