@@ -9,30 +9,26 @@
 #include <iostream>
 #include <string>
 using namespace std;
-class Time_Deposit //å®šæœŸå­˜æ¬¾
+class Time_Deposit //¶¨ÆÚ´æ¿î
 {
-public:
-	int time_deposit_add(double money,int time,double D_interest); //å®šæœŸå­˜æ¬¾å‡½æ•°
-	int time_deposit_sub(double sub_money,double N_time);//å®šæœŸå–æ¬¾å‡½æ•° 
-privateï¼š 
-
-    double sum;  //å­˜æ¬¾æ•°ç›®
-    double D_interest;	//å®šæœŸåˆ©æ¯ 
-    int Date[3]; //å­˜æ¬¾æ—¥æœŸ
-    int D_time;//çº¦å®šæ—¶é•¿ 
-
+public:    
+	int time_deposit_add(double money,int time,double D_interest); //¶¨ÆÚ´æ¿î
+	int time_deposit_sub(double sub_money,double N_time);//¶¨ÆÚÈ¡¿î 
+    
+private:    
+    double sum;  //¶¨ÆÚ×ÜÓà¶î
+    double D_interest;	//¶¨ÆÚÀûÏ¢ 
+    int Date[3]; //´æ¿îÊ±¼ä
+    int D_time;//Ô¼¶¨Ê±³¤
 };
-class Finance : public Time_Deposit //é‡‘èç±»
+class Finance : public Time_Deposit //½ğÈÚÀà
 {
   public:
-    int demand_deposit_add(double money,double N_time);         //æ´»æœŸå­˜æ¬¾å‡½æ•°æˆå‘˜, è®°å½•
-    
-    int demand_deposit_sub(double sub_money);//æ´»æœŸå–æ¬¾å‡½æ•° 
-
-  private:
-    double balance;         //æ€»ä½™é¢æ´»æœŸæ€»å­˜æ¬¾åˆ©æ¯, ç”¨äºè®¡ç®—æ´»æœŸåˆ©æ¯
-    double demand_deposit;  //æ´»æœŸå­˜æ¬¾
-    double demand_interest; //æ´»æœŸæ€»åˆ©æ¯
+    int demand_deposit_add(double money,double N_time);//»îÆÚ´æ¿î
+    int demand_deposit_sub(double sub_money);//»îÆÚÈ¡¿î 
+private:
+    double balance;         //»îÆÚ×ÜÓà¶î£¬ÓÃÓÚ¼ÆËãÀûÏ¢
+    double demand_deposit;  //»îÆÚ´æ¿î
+    double demand_interest; //»îÆÚÀûÏ¢
 };
-
 #endif
