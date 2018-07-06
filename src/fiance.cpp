@@ -39,19 +39,19 @@ int Fiance::time_deposit_add(double money,int time,double D_interest,int D_time)
 	}
 	
 }
-int Fiance::time_deposit_sub(double balance,double time_deposit,double sub_money,double D_time,double N_time)//定期取款 
+int Fiance::time_deposit_sub(double time_deposit,double sub_money,double D_time,double N_time)//定期取款 
 {
 	if(D_time>N_time)
 		return 0;
 	if(D_time<N_time)
 	{
-		if (balance>=sub_money)
+		if (sum>=sub_money)
 		{
-			balance-=sub_money;
+			sum-=sub_money;
 			time_deposit-=sub_money;
 			return 1;
 		}
-		if (balance<sub_money)
+		if (sum<sub_money)
 			return 0;
 	}
 
