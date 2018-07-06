@@ -21,6 +21,9 @@ class User : public Finance
     string showname();                      //返回当前结点的姓名
     string showemail();                     //返回当前结点的邮箱
     int showcardid();
+    string showpasswd();
+    int showstatus();
+    int transfer_money(User *target,double money);
     User(string name1, string email1, string passwd1, int status1);
     //~User
   private:
