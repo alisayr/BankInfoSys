@@ -20,6 +20,7 @@ User *Bank::new_account(string name, string email, string passwd)
     ptr = tail;
     ptr->next = new User(name,email,passwd,1);
     ptr = ptr->next;
+    tail = ptr;
     return ptr;
 }
 User *Bank::Find(string name_email)

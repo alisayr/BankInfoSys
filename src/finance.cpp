@@ -12,6 +12,7 @@ int Finance::settle_interest()
 	demand_deposit += demand_interest; 	//活期利息加入活期存款
 	balance = demand_deposit;			//同步
 	demand_interest = 0;				//活期利息清零
+	return 1;
 }
 int Finance::demand_deposit_add(double money) //活期存款
 {
@@ -31,6 +32,7 @@ int Finance::demand_deposit_sub(double money) //活期取款
 	}
 	if (balance < money)
 		return 0;
+	return 0;
 }
 int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time)//定期存款
 {
@@ -43,6 +45,7 @@ int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time)/
 		D_interest = D_Interest;
 		return 1;
 	}
+	return 0;
 }
 int Time_Deposit::time_deposit_sub()//定期取款
 {
@@ -54,7 +57,9 @@ int Time_Deposit::time_deposit_sub()//定期取款
 		D_interest = 0;
 		Date = 0;
 		D_time = 0;
+		return 1;
 	}
+	return 0;
 }
 Time_Deposit::Time_Deposit()
 {
