@@ -24,6 +24,7 @@ class User : public Finance
     int showcardid();
     string showpasswd();
     int showstatus();
+    int showall();
     int transfer_money(User *target,double money);
     User(string name1, string email1, string passwd1, int status1);
     //~User

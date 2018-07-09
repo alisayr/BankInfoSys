@@ -63,7 +63,8 @@ int Bank::Login(int cardid, string passwd)
             log = NULL;
             return 2;
         }
-    }else
+    }
+    else
         return 0;
 }
 int Bank::Logout()
@@ -89,17 +90,15 @@ int Bank::Logstatus()
 int Bank::Listall()
 {
     int i = 1;
+    system("cls");
     ptr = head;
     do
     {
         cout << "***************************" << endl;
-        cout << i << ":"<<"\t"<<"¿¨ºÅ£º";
-        cout<<ptr->showcardid()<<"\t"<<"ÐÕÃû£º";
-        cout<<ptr->showname()<<"\t"<<"ÓÊÏä£º";
-        cout<<ptr->showemail()<<endl;
-        cout << "***************************" << endl;
+        cout << i << ":" << endl;
+        ptr->showall();
         i++;
         ptr = ptr->next;
-    } while (ptr!=NULL);
+    } while (ptr != NULL);
     return 0;
 }
