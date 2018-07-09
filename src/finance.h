@@ -10,6 +10,7 @@
 #include <conio.h>
 #include <iostream>
 #include <string>
+#include <windows.h>
 using namespace std;
 class Time_Deposit //¶¨ÆÚ´æ¿î
 {
