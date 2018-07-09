@@ -6,6 +6,7 @@
     *Date: 2018.7.5 10:02
 */
 #ifndef _USER_H_
+#define _USER_H_
 #include "finance.h"
 class User : public Finance
 {
@@ -23,6 +24,7 @@ class User : public Finance
     int showcardid();
     string showpasswd();
     int showstatus();
+    int showall();
     int transfer_money(User *target,double money);
     User(string name1, string email1, string passwd1, int status1);
     //~User

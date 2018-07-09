@@ -68,12 +68,10 @@ int User::showstatus()
 }
 int User::transfer_money(User *target, double money)
 {
-    if (target->showstatus() == 2) //目标账户处于挂失状态
+    if (target->showstatus() == 3) //目标账户处于销户状态
         return 2;
-    else if (target->showstatus() == 3) //目标账户处于销户状态
+    else if (target->showstatus() == 4) //目标账户是管理员
         return 3;
-    else if (target->showstatus() == 4)//目标账户是管理员
-        return 4;
     else if (this->demand_deposit_sub(money))
     {
 
@@ -82,5 +80,29 @@ int User::transfer_money(User *target, double money)
     }
     else
         return 0; //扣款失败，余额不足
+}
+int User::showall()
+{
+    cout << "卡号：";
+    cout << showcardid() << "\t"
+         << "姓名：";
+    cout << showname() << "   "
+         << "邮箱：";
+    cout << showemail() << "\t"
+         << "状态：";
+    cout << report(showstatus()) << "\t"
+         << "余额：";
+    cout << show_balance() << "\t"
+         << "活期存款：";
+    cout << show_demand_deposit() <<"元"<< "\t"
+         << "定期存款：";
+    cout << show_time_deposit_sum() <<"元"<< "\t"
+         << "定期利息：";
+    cout << show_time_deposit_interest()<<"元" << "\t"
+         << "存款时间：";
+    cout << show_time_deposit_date() << "\t"
+         << "存款时长：";
+    cout << show_time_deposit_dtime() <<"天"<< endl;
+    return 1;
 }
 #endif

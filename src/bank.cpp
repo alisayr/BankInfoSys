@@ -6,12 +6,12 @@
     *Date: 2018.7.6 8:08
 */
 #include "bank.h"
-#include "user.cpp"
 int Bank::CBank(string passwdadm)
 {
-    head = new User("Admin", "admin@admin.com", passwdadm, 4);
+    head = new User("Admin", "admin@host", passwdadm, 4);
     tail = head;
     ptr = head;
+    return 1;
 }
 
 User *Bank::new_account(string name, string email, string passwd)
@@ -20,6 +20,8 @@ User *Bank::new_account(string name, string email, string passwd)
     ptr->next = new User(name, email, passwd, 1);
     ptr = ptr->next;
     tail = ptr;
+    cout << "注册成功，您的卡号为：";
+    cout << ptr->showcardid() << endl;
     return ptr;
 }
 User *Bank::Find(string name_email)
@@ -33,6 +35,7 @@ User *Bank::Find(string name_email)
     } while (ptr != NULL);
     if (ptr == NULL)
         return NULL;
+    return NULL;
 }
 User *Bank::Find(int cardid)
 {
@@ -45,8 +48,9 @@ User *Bank::Find(int cardid)
     } while (ptr != NULL);
     if (ptr == NULL)
         return NULL;
+    return NULL;
 }
-int Bank::Login(string cardid, string passwd)
+int Bank::Login(int cardid, string passwd)
 {
     log = Find(cardid);
     if (log != NULL)
@@ -57,10 +61,11 @@ int Bank::Login(string cardid, string passwd)
         else
         {
             log = NULL;
-            return 0;
+            return 2;
         }
     }
-    return 0;
+    else
+        return 0;
 }
 int Bank::Logout()
 {
@@ -81,4 +86,19 @@ int Bank::Logstatus()
         return 4;
     else
         return 5;
+}
+int Bank::Listall()
+{
+    int i = 1;
+    system("cls");
+    ptr = head;
+    do
+    {
+        cout << "***************************" << endl;
+        cout << i << ":" << endl;
+        ptr->showall();
+        i++;
+        ptr = ptr->next;
+    } while (ptr != NULL);
+    return 0;
 }
