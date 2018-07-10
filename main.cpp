@@ -40,6 +40,12 @@ int forgetpasswd(Bank &bank)
     }
     else
     {
+        if (bank.Find(id)->showstatus() == 3)
+        {
+            cout << "用户不存在！" << endl;
+            system("pause");
+            return 0;
+        }
         cout << "请输入您的邮箱:";
         cin >> str;
         if (bank.Find(id)->showemail() == str)
@@ -47,6 +53,7 @@ int forgetpasswd(Bank &bank)
             cout << "验证成功！请设置新的密码：";
             cin >> str;
             bank.Find(id)->change_passwd(str);
+
             cout << "修改成功！" << endl;
             system("pause");
             return 1;
@@ -57,8 +64,8 @@ int forgetpasswd(Bank &bank)
             system("pause");
             return 0;
         }
+        return 0;
     }
-    return 0;
 }
 int set_time()
 {
@@ -244,7 +251,7 @@ int finance(Bank &bank)
                     if (tim == 3)
                         cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
                     else if (tim == 2)
-                        cout << "[错误] 目标账户处于销户状态，无法接受转账！" << endl;
+                        cout << "[错误] 目标账户不存在！" << endl;
                     else if (tim == 0)
                         cout << "[错误] 扣款失败!余额不足!" << endl;
                     else
@@ -275,7 +282,7 @@ int finance(Bank &bank)
                         if (tim == 3)
                             cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
                         else if (tim == 2)
-                            cout << "[错误] 目标账户处于销户状态，无法接受转账！" << endl;
+                            cout << "[错误] 目标账户不存在！" << endl;
                         else if (tim == 0)
                             cout << "[错误] 扣款失败!余额不足!" << endl;
                         else
@@ -308,6 +315,7 @@ int usermanage(Bank &bank)
         cout << "2.修改姓名" << endl;
         cout << "3.修改密码" << endl;
         cout << "4.挂失" << endl;
+        cout << "5.销户" << endl;
         cout << "0.后退" << endl;
         cin >> cho;
         switch (cho)
@@ -334,8 +342,22 @@ int usermanage(Bank &bank)
             system("pause");
             break;
         case 4:
-            bank.log->report_loss();
-            cout << "[提示] 挂失成功！" << endl;
+            if (bank.log->report_loss() == 0)
+                cout << "[提示] 无法挂失管理员账户！" << endl;
+            else
+                cout << "[提示] 挂失成功！" << endl;
+            system("pause");
+            break;
+        case 5:
+            if (bank.log->report_loss() == 0)
+                cout << "[提示] 无法为管理员账户销户！" << endl;
+            else
+            {
+                bank.log->change_status(3);
+                cout << "[提示] 销户成功！" << endl;
+                system("pause");
+                return 0;
+            }
             system("pause");
             break;
         case 0:
@@ -369,8 +391,8 @@ int loginpage(Bank &bank)
         switch (cho)
         {
         case 1:
-            usermanage(bank);
-            break;
+            if (usermanage(bank) == 0)
+                return 0;
         case 2:
             finance(bank);
             break;
@@ -380,6 +402,7 @@ int loginpage(Bank &bank)
             system("pause");
             break;
         case 0:
+            bank.Logout();
             return 0;
         case 5:
             if (bank.log->showstatus() == 4)
@@ -414,6 +437,16 @@ int userlogin(Bank &bank)
     else if (bank.Login(cardid, cardpswd) == 0)
     {
         cout << "[错误] 用户不存在！！请重新输入" << endl;
+        system("pause");
+    }
+    else if (bank.Login(cardid, cardpswd) == 3)
+    {
+        cout << "[错误] 账户处于挂失状态！" << endl;
+        system("pause");
+    }
+    else if (bank.Login(cardid, cardpswd) == 4)
+    {
+        cout << "[错误] 用户不存在！！请重新输入！" << endl;
         system("pause");
     }
     else
@@ -485,7 +518,7 @@ int choice(Bank &bank)
 }
 int main()
 {
-    cout.setf(ios::fixed,ios::floatfield);
+    cout.setf(ios::fixed, ios::floatfield);
     Bank bank;
     system("cls");
     cout << "****************************" << endl;

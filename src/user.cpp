@@ -31,7 +31,17 @@ int User::email_change(string newemail)
 }
 int User::report_loss()
 {
-    status = 2;
+    if (status == 4)
+        return 0;
+    else
+    {
+        status = 2;
+        return 1;
+    }
+}
+int User::change_status(int i)
+{
+    status = i;
     return 1;
 }
 int User::change_passwd(string newpasswd)
@@ -94,15 +104,21 @@ int User::showall()
          << "余额：";
     cout << show_balance() << "\t"
          << "活期存款：";
-    cout << show_demand_deposit() <<"元"<< "\t"
-         << "定期存款：";
-    cout << show_time_deposit_sum() <<"元"<< "\t"
+    cout << show_demand_deposit() << "元"
+         << "\t"
+         << "上次结息日：";
+    showdate(StartDate[0], StartDate[1], StartDate[2], show_date());
+    cout << "\t定期存款：";
+    cout << show_time_deposit_sum() << "元"
+         << "\t"
          << "定期利息：";
-    cout << show_time_deposit_interest()<<"元" << "\t"
-         << "存款时间：";
-    cout << show_time_deposit_date() << "\t"
-         << "存款时长：";
-    cout << show_time_deposit_dtime() <<"天"<< endl;
+    cout << show_time_deposit_interest() << "元"
+         << "\t"
+         << "定存时间：";
+    showdate(StartDate[0], StartDate[1], StartDate[2], show_time_deposit_date());
+    cout << "\t"
+         << "定存时长：";
+    cout << show_time_deposit_dtime() << "天" << endl;
     return 1;
 }
 #endif

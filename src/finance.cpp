@@ -17,7 +17,8 @@ int Finance::settle_interest()
 {
 	demand_deposit += demand_interest; //活期利息加入活期存款
 	balance = demand_deposit;		   //同步
-	demand_interest = 0;			   //活期利息清零
+	date = PassDay;
+	demand_interest = 0; //活期利息清零
 	return 1;
 }
 int Finance::demand_deposit_add(double money) //活期存款
@@ -44,17 +45,17 @@ double Finance::time_deposit()
 {
 	double i;
 	i = time_deposit_sub();
-	if(i==0)
+	if (i == 0)
 		return 0;
-	else if(i==-1)
+	else if (i == -1)
 		return -1;
-	else if(i==-2)
+	else if (i == -2)
 		return -2;
 	else
-		{
-			demand_deposit_add(i);
-			return i;
-		}
+	{
+		demand_deposit_add(i);
+		return i;
+	}
 }
 int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time) //定期存款
 {
@@ -73,8 +74,8 @@ int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time) 
 double Time_Deposit::time_deposit_sub() //定期取款
 {
 	double i;
-	i = sum+D_interest;
-	if(sum>0)
+	i = sum + D_interest;
+	if (sum > 0)
 	{
 		if (Date + D_time > PassDay)
 			return -1;
@@ -122,10 +123,15 @@ double Finance::show_demand_deposit()
 {
 	return demand_deposit;
 }
+int Finance::show_date()
+{
+	return date;
+}
 Finance::Finance()
 {
 	balance = 0;
 	demand_deposit = 0;
 	demand_interest = 0;
+	date = PassDay;
 }
 #endif

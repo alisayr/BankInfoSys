@@ -53,7 +53,11 @@ User *Bank::Find(int cardid)
 int Bank::Login(int cardid, string passwd)
 {
     log = Find(cardid);
-    if (log != NULL)
+    if (log->showstatus() == 2)
+        return 3;
+    else if (log->showstatus() == 3)
+        return 4;
+    else if (log != NULL)
     {
         if (log->showpasswd() == passwd)
             return 1;
