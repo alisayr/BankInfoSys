@@ -34,7 +34,7 @@ int forgetpasswd(Bank &bank)
     cin >> id;
     if (bank.Find(id) == NULL)
     {
-        cout << "用户不存在！" << endl;
+        cout << "[错误] 用户不存在！" << endl;
         system("pause");
         return 0;
     }
@@ -42,7 +42,7 @@ int forgetpasswd(Bank &bank)
     {
         if (bank.Find(id)->showstatus() == 3)
         {
-            cout << "用户不存在！" << endl;
+            cout << "[错误] 用户不存在！" << endl;
             system("pause");
             return 0;
         }
@@ -51,16 +51,17 @@ int forgetpasswd(Bank &bank)
         if (bank.Find(id)->showemail() == str)
         {
             cout << "验证成功！请设置新的密码：";
-            cin >> str;
+            str = passwordin();
             bank.Find(id)->change_passwd(str);
-
-            cout << "修改成功！" << endl;
+            if (bank.Find(id)->showstatus() == 2)
+                bank.Find(id)->change_status(1);
+            cout << "[提示] 修改成功！" << endl;
             system("pause");
             return 1;
         }
         else
         {
-            cout << "邮箱错误！找回失败！" << endl;
+            cout << "[错误] 邮箱错误！找回失败！" << endl;
             system("pause");
             return 0;
         }
@@ -255,7 +256,7 @@ int finance(Bank &bank)
                     else if (tim == 0)
                         cout << "[错误] 扣款失败!余额不足!" << endl;
                     else
-                        cout << "转账成功！" << endl;
+                        cout << "[提示] 转账成功！" << endl;
                     system("pause");
                     return 0;
                 }
@@ -286,7 +287,7 @@ int finance(Bank &bank)
                         else if (tim == 0)
                             cout << "[错误] 扣款失败!余额不足!" << endl;
                         else
-                            cout << "转账成功！" << endl;
+                            cout << "[提示] 转账成功！" << endl;
                         system("pause");
                     }
                 }
@@ -343,14 +344,23 @@ int usermanage(Bank &bank)
             break;
         case 4:
             if (bank.log->report_loss() == 0)
+            {
                 cout << "[提示] 无法挂失管理员账户！" << endl;
+                system("pause");
+            }
             else
+            {
                 cout << "[提示] 挂失成功！" << endl;
-            system("pause");
+                system("pause");
+                return 0;
+            }
             break;
         case 5:
             if (bank.log->report_loss() == 0)
+            {
                 cout << "[提示] 无法为管理员账户销户！" << endl;
+                system("pause");
+            }
             else
             {
                 bank.log->change_status(3);
@@ -358,15 +368,14 @@ int usermanage(Bank &bank)
                 system("pause");
                 return 0;
             }
-            system("pause");
             break;
         case 0:
-            return 0;
+            return 1;
         default:
             break;
         }
     }
-    return 0;
+    return 1;
 }
 int loginpage(Bank &bank)
 {
@@ -393,6 +402,7 @@ int loginpage(Bank &bank)
         case 1:
             if (usermanage(bank) == 0)
                 return 0;
+            break;
         case 2:
             finance(bank);
             break;
@@ -465,6 +475,8 @@ int userregister(Bank &bank)
     string passwd;
     string repasswd;
     system("cls");
+    cout << "您已进入-》注册页面" << endl;
+    cout << "****************************" << endl;
     cout << "请输入您的邮箱：" << endl;
     cin >> email;
     cout << "请输入您的姓名：" << endl;
