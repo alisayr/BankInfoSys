@@ -35,6 +35,7 @@ public:
   int demand_deposit_add(double money);     //活期存款
   int demand_deposit_sub(double sub_money); //活期取款
   int settle_interest();                    //结算利息
+  double get_interest();
   double time_deposit();
   double show_balance();
   double show_demand_deposit();

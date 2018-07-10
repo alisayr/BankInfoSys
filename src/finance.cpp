@@ -127,6 +127,14 @@ int Finance::show_date()
 {
 	return date;
 }
+double Finance::get_interest()
+{
+	demand_interest = demand_deposit*(PassDay - date) / 360 * interest[0];
+	balance += demand_interest;
+	demand_deposit += demand_interest;
+	date = PassDay;
+	return demand_interest;
+}
 Finance::Finance()
 {
 	balance = 0;

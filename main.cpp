@@ -113,6 +113,7 @@ int managepage(Bank &bank)
         cout << "2.统计" << endl;
         cout << "3.设置利率" << endl;
         cout << "5.操纵时间(+1s)" << endl;
+        cout << "6.全体活期结息" << endl;
         cout << "0.退出" << endl;
         cin >> cho;
         switch (cho)
@@ -124,7 +125,7 @@ int managepage(Bank &bank)
             break;
         case 2:
             system("cls");
-            cout << "留空" << endl;
+            bank.statistics();
             system("pause");
             break;
         case 3:
@@ -149,6 +150,12 @@ int managepage(Bank &bank)
         case 5:
             system("cls");
             set_time();
+            system("pause");
+            break;
+        case 6:
+            system("cls");
+            bank.getallinterest();
+            cout << "[提示] 结息完成！" << endl;
             system("pause");
             break;
         case 0:
@@ -178,6 +185,7 @@ int finance(Bank &bank)
         cout << "3.定期存款" << endl;
         cout << "4.定期取款" << endl;
         cout << "5.转账" << endl;
+        cout << "6.手动结息" << endl;
         cout << "0.退出" << endl;
         cin >> cho;
         switch (cho)
@@ -292,6 +300,11 @@ int finance(Bank &bank)
                     }
                 }
             }
+            system("pause");
+            break;
+        case 6:
+            system("cls");
+            cout << "当前活期利率为：" << interest[0] << ",您的活期本金为" << bank.log->show_demand_deposit() << "元,尚未结息时间:" << PassDay - bank.log->show_date() << "天，已结息" << bank.log->get_interest() << "元。" << endl;
             system("pause");
             break;
         case 0:
