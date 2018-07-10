@@ -27,41 +27,35 @@ int start(Bank &bank)
 int forgetpasswd(Bank &bank)
 {
     string str;
-    int cho;
     int id;
     system("cls");
-    cout << "请选择您的找回方式：\t1.找回密码\t2.找回卡号" << endl;
-    cin >> cho;
-    if (cho == 1)
+    system("cls");
+    cout << "请输入您的卡号:";
+    cin >> id;
+    if (bank.Find(id) == NULL)
     {
-        system("cls");
-        cout << "请输入您的卡号:";
-        cin >> id;
-        if (bank.Find(id) == NULL)
+        cout << "用户不存在！" << endl;
+        system("pause");
+        return 0;
+    }
+    else
+    {
+        cout << "请输入您的邮箱:";
+        cin >> str;
+        if (bank.Find(id)->showemail() == str)
         {
-            cout << "用户不存在！" << endl;
+            cout << "验证成功！请设置新的密码：";
+            cin >> str;
+            bank.Find(id)->change_passwd(str);
+            cout << "修改成功！" << endl;
             system("pause");
-            return 0;
+            return 1;
         }
         else
         {
-            cout << "请输入您的邮箱:";
-            cin >> str;
-            if (bank.Find(id)->showemail() == str)
-            {
-                cout << "验证成功！请设置新的密码：";
-                cin >> str;
-                bank.Find(id)->change_passwd(str);
-                cout << "修改成功！" << endl;
-                system("pause");
-                return 1;
-            }
-            else
-            {
-                cout << "邮箱错误！找回失败！" << endl;
-                system("pause");
-                return 0;
-            }
+            cout << "邮箱错误！找回失败！" << endl;
+            system("pause");
+            return 0;
         }
     }
     return 0;
@@ -128,13 +122,13 @@ int managepage(Bank &bank)
         case 3:
             system("cls");
             cout << "请输入设定利息：" << endl;
-            cout << "1.活期" << endl;
-            cout << "2.三个月" << endl;
-            cout << "3.六个月" << endl;
-            cout << "4.一年" << endl;
-            cout << "5.两年" << endl;
-            cout << "6.三年" << endl;
-            cout << "7.五年" << endl;
+            cout << "1.活期,当前：" << interest[0] << endl;
+            cout << "2.三个月,当前：" << interest[1] << endl;
+            cout << "3.六个月,当前：" << interest[2] << endl;
+            cout << "4.一年,当前：" << interest[3] << endl;
+            cout << "5.两年,当前：" << interest[4] << endl;
+            cout << "6.三年,当前：" << interest[5] << endl;
+            cout << "7.五年,当前：" << interest[6] << endl;
             cin >> cho;
             cout << "请输入设定后的利息：" << endl;
             cin >> setint;
@@ -210,7 +204,7 @@ int finance(Bank &bank)
             cout << "5.三年" << endl;
             cout << "6.五年" << endl;
             cin >> tim;
-            bank.log->time_deposit_add(sum, interest[tim - 1] * sum * time_deposit[tim - 1] / 360, time_deposit[tim - 1]);
+            bank.log->time_deposit_add(sum, interest[tim] * sum * time_deposit[tim - 1] / 360, time_deposit[tim - 1]);
             system("cls");
             cout << "[提示] 存款成功！" << endl;
             system("pause");
@@ -366,7 +360,7 @@ int loginpage(Bank &bank)
         cout << "****************************" << endl;
         cout << "请输入您要选择的功能代码:" << endl;
         cout << "1.账户管理" << endl;
-        cout << "2.交易管理(未开放)" << endl;
+        cout << "2.交易管理" << endl;
         cout << "3.查询信息" << endl;
         cout << "0.退出" << endl;
         if (bank.log->showstatus() == 4)
@@ -491,6 +485,7 @@ int choice(Bank &bank)
 }
 int main()
 {
+    cout.setf(ios::fixed,ios::floatfield);
     Bank bank;
     system("cls");
     cout << "****************************" << endl;
