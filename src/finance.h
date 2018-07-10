@@ -10,12 +10,13 @@
 #include <conio.h>
 #include <iostream>
 #include <string>
+#include <windows.h>
 using namespace std;
 class Time_Deposit //定期存款
 {
 public:
   int time_deposit_add(double money, double D_Interest, int D_Time); //定期存款
-  int time_deposit_sub();                                            //定期取款
+  double time_deposit_sub();                                         //定期取款
   double show_time_deposit_sum();
   double show_time_deposit_interest();
   int show_time_deposit_date();
@@ -34,14 +35,18 @@ public:
   int demand_deposit_add(double money);     //活期存款
   int demand_deposit_sub(double sub_money); //活期取款
   int settle_interest();                    //结算利息
+  double get_interest();
+  double time_deposit();
   double show_balance();
   double show_demand_deposit();
+  int show_date();
   Finance();
 
 private:
   double balance;         //活期总余额，用于计算利息
   double demand_deposit;  //活期存款
   double demand_interest; //活期利息
+  int date;
 };
 
 string report(int i)

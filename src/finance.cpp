@@ -12,12 +12,13 @@ int StartDate[3];
 int NowDate[3];
 int PassDay;
 double interest[7] = {0.003, 0.0135, 0.0155, 0.0175, 0.0225, 0.0275, 0.0275};
-int time_deposit[6] = {90, 180, 360, 720, 960, 1800};
+int time_deposit[6] = {90, 180, 360, 720, 1080, 1800};
 int Finance::settle_interest()
 {
 	demand_deposit += demand_interest; //活期利息加入活期存款
 	balance = demand_deposit;		   //同步
-	demand_interest = 0;			   //活期利息清零
+	date = PassDay;
+	demand_interest = 0; //活期利息清零
 	return 1;
 }
 int Finance::demand_deposit_add(double money) //活期存款
@@ -40,12 +41,29 @@ int Finance::demand_deposit_sub(double money) //活期取款
 		return 0;
 	return 0;
 }
+double Finance::time_deposit()
+{
+	double i;
+	i = time_deposit_sub();
+	if (i == 0)
+		return 0;
+	else if (i == -1)
+		return -1;
+	else if (i == -2)
+		return -2;
+	else
+	{
+		demand_deposit_add(i);
+		return i;
+	}
+}
 int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time) //定期存款
 {
 	if (sum > 0)
 		return 0;
 	if (sum == 0)
 	{
+		Date = PassDay;
 		sum += money;
 		D_time = D_Time;
 		D_interest = D_Interest;
@@ -53,19 +71,26 @@ int Time_Deposit::time_deposit_add(double money, double D_Interest, int D_Time) 
 	}
 	return 0;
 }
-int Time_Deposit::time_deposit_sub() //定期取款
+double Time_Deposit::time_deposit_sub() //定期取款
 {
-	if (Date + D_time > PassDay)
-		return 0;
-	if (Date + D_time < PassDay)
+	double i;
+	i = sum + D_interest;
+	if (sum > 0)
 	{
-		sum = 0;
-		D_interest = 0;
-		Date = 0;
-		D_time = 0;
-		return 1;
+		if (Date + D_time > PassDay)
+			return -1;
+		if (Date + D_time < PassDay)
+		{
+			sum = 0;
+			D_interest = 0;
+			Date = 0;
+			D_time = 0;
+			return i;
+		}
 	}
-	return 0;
+	else
+		return 0;
+	return -2;
 }
 double Time_Deposit::show_time_deposit_sum()
 {
@@ -98,10 +123,23 @@ double Finance::show_demand_deposit()
 {
 	return demand_deposit;
 }
+int Finance::show_date()
+{
+	return date;
+}
+double Finance::get_interest()
+{
+	demand_interest = demand_deposit*(PassDay - date) / 360 * interest[0];
+	balance += demand_interest;
+	demand_deposit += demand_interest;
+	date = PassDay;
+	return demand_interest;
+}
 Finance::Finance()
 {
 	balance = 0;
 	demand_deposit = 0;
 	demand_interest = 0;
+	date = PassDay;
 }
 #endif

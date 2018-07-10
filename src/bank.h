@@ -20,7 +20,9 @@ class Bank
     int Logout();                            //登出
     int Logstatus();
     int Interest();
-    int Listall();                                               //产生利息
+    int Listall();
+    int statistics();
+    int getallinterest();                                        //产生利息
     User *new_account(string name, string email, string passwd); //新建一个账号, 输入姓名，邮箱，密码
     User *Find(string name_email);                               //查询一个账户, 输入姓名或邮箱查询, 返回地址
     User *Find(int cardid);                                      //查询一个账户, 输入卡号查询, 返回地址

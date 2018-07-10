@@ -18,10 +18,55 @@ int start(Bank &bank)
     NowDate[2] = StartDate[2];
     bank.CBank(str);
     system("cls");
-    cout << "[重要] 初始化安装完毕，管理员默认卡号:101，感谢您的使用！" << endl;
+    cout << "[重要] 初始化安装完毕，管理员默认卡号:101，感谢您的使用！\n[重要] 请及时修改管理员信息，以免损失！" << endl;
     system("pause");
     system("cls");
     return 1;
+}
+
+int forgetpasswd(Bank &bank)
+{
+    string str;
+    int id;
+    system("cls");
+    system("cls");
+    cout << "请输入您的卡号:";
+    cin >> id;
+    if (bank.Find(id) == NULL)
+    {
+        cout << "[错误] 用户不存在！" << endl;
+        system("pause");
+        return 0;
+    }
+    else
+    {
+        if (bank.Find(id)->showstatus() == 3)
+        {
+            cout << "[错误] 用户不存在！" << endl;
+            system("pause");
+            return 0;
+        }
+        cout << "请输入您的邮箱:";
+        cin >> str;
+        if (bank.Find(id)->showemail() == str)
+        {
+            cout << "验证成功！请设置新的密码：";
+            str = passwordin();
+            bank.Find(id)->change_passwd(str);
+            if (bank.Find(id)->showstatus() == 2)
+                bank.Find(id)->change_status(1);
+            cout << "[提示] 修改成功！" << endl;
+            system("pause");
+            return 1;
+        }
+        else
+        {
+            cout << "[错误] 邮箱错误！找回失败！" << endl;
+            system("pause");
+            return 0;
+        }
+        return 0;
+    }
 }
 int set_time()
 {
@@ -68,6 +113,7 @@ int managepage(Bank &bank)
         cout << "2.统计" << endl;
         cout << "3.设置利率" << endl;
         cout << "5.操纵时间(+1s)" << endl;
+        cout << "6.全体活期结息" << endl;
         cout << "0.退出" << endl;
         cin >> cho;
         switch (cho)
@@ -79,19 +125,19 @@ int managepage(Bank &bank)
             break;
         case 2:
             system("cls");
-            cout << "留空" << endl;
+            bank.statistics();
             system("pause");
             break;
         case 3:
             system("cls");
             cout << "请输入设定利息：" << endl;
-            cout << "1.活期" << endl;
-            cout << "2.三个月" << endl;
-            cout << "3.六个月" << endl;
-            cout << "4.一年" << endl;
-            cout << "5.两年" << endl;
-            cout << "6.三年" << endl;
-            cout << "7.五年" << endl;
+            cout << "1.活期,当前：" << interest[0] << endl;
+            cout << "2.三个月,当前：" << interest[1] << endl;
+            cout << "3.六个月,当前：" << interest[2] << endl;
+            cout << "4.一年,当前：" << interest[3] << endl;
+            cout << "5.两年,当前：" << interest[4] << endl;
+            cout << "6.三年,当前：" << interest[5] << endl;
+            cout << "7.五年,当前：" << interest[6] << endl;
             cin >> cho;
             cout << "请输入设定后的利息：" << endl;
             cin >> setint;
@@ -106,6 +152,12 @@ int managepage(Bank &bank)
             set_time();
             system("pause");
             break;
+        case 6:
+            system("cls");
+            bank.getallinterest();
+            cout << "[提示] 结息完成！" << endl;
+            system("pause");
+            break;
         case 0:
             return 0;
         default:
@@ -116,9 +168,11 @@ int managepage(Bank &bank)
 }
 int finance(Bank &bank)
 {
+    int id;
     int cho;
     int sum;
     int tim;
+    double db;
     string str;
     while (1)
     {
@@ -131,6 +185,7 @@ int finance(Bank &bank)
         cout << "3.定期存款" << endl;
         cout << "4.定期取款" << endl;
         cout << "5.转账" << endl;
+        cout << "6.手动结息" << endl;
         cout << "0.退出" << endl;
         cin >> cho;
         switch (cho)
@@ -165,8 +220,91 @@ int finance(Bank &bank)
             cout << "5.三年" << endl;
             cout << "6.五年" << endl;
             cin >> tim;
-            bank.log->time_deposit_add(sum, interest[tim - 1] * sum * time_deposit[tim - 1] / 360, time_deposit[tim - 1]);
+            bank.log->time_deposit_add(sum, interest[tim] * sum * time_deposit[tim - 1] / 360, time_deposit[tim - 1]);
+            system("cls");
             cout << "[提示] 存款成功！" << endl;
+            system("pause");
+            break;
+        case 4:
+            system("cls");
+            db = bank.log->time_deposit();
+            if (db == 0)
+                cout << "[错误] 您没有定期存款！" << endl;
+            else if (db == -1)
+                cout << "[错误] 还没有到取款日期！" << endl;
+            else if (db == -2)
+                cout << "[错误] 未知错误！" << endl;
+            else
+                cout << "[提示] 取款成功！本利和一共" << db << "元！" << endl;
+            system("pause");
+            break;
+        case 5:
+            system("cls");
+            cout << "请选择转账方式：\t1.单一用户\t2.多个用户" << endl;
+            cin >> cho;
+            if (cho == 1)
+            {
+                cout << "请输入目标账户的卡号：";
+                cin >> id;
+                if (bank.Find(id) == NULL)
+                {
+                    cout << "[错误] 目标账户不存在！" << endl;
+                    system("pause");
+                    break;
+                }
+                else
+                {
+                    cout << "请输入转账金额:";
+                    cin >> sum;
+                    tim = bank.log->transfer_money(bank.Find(id), sum);
+                    if (tim == 3)
+                        cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
+                    else if (tim == 2)
+                        cout << "[错误] 目标账户不存在！" << endl;
+                    else if (tim == 0)
+                        cout << "[错误] 扣款失败!余额不足!" << endl;
+                    else
+                        cout << "[提示] 转账成功！" << endl;
+                    system("pause");
+                    return 0;
+                }
+            }
+            else if (cho == 2)
+            {
+                while (1)
+                {
+                    cout << "请输入目标账户的卡号(输入0退出)：";
+                    cin >> id;
+                    if (id == 0)
+                        return 0;
+                    if (bank.Find(id) == NULL)
+                    {
+                        cout << "[错误] 目标账户不存在！" << endl;
+                        system("pause");
+                    }
+
+                    else
+                    {
+                        cout << "请输入转账金额:";
+                        cin >> sum;
+                        tim = bank.log->transfer_money(bank.Find(id), sum);
+                        if (tim == 3)
+                            cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
+                        else if (tim == 2)
+                            cout << "[错误] 目标账户不存在！" << endl;
+                        else if (tim == 0)
+                            cout << "[错误] 扣款失败!余额不足!" << endl;
+                        else
+                            cout << "[提示] 转账成功！" << endl;
+                        system("pause");
+                    }
+                }
+            }
+            system("pause");
+            break;
+        case 6:
+            system("cls");
+            cout << "当前活期利率为：" << interest[0] << ",您的活期本金为" << bank.log->show_demand_deposit() << "元,尚未结息时间:" << PassDay - bank.log->show_date() << "天，已结息" << bank.log->get_interest() << "元。" << endl;
             system("pause");
             break;
         case 0:
@@ -191,6 +329,7 @@ int usermanage(Bank &bank)
         cout << "2.修改姓名" << endl;
         cout << "3.修改密码" << endl;
         cout << "4.挂失" << endl;
+        cout << "5.销户" << endl;
         cout << "0.后退" << endl;
         cin >> cho;
         switch (cho)
@@ -217,17 +356,39 @@ int usermanage(Bank &bank)
             system("pause");
             break;
         case 4:
-            bank.log->report_loss();
-            cout << "[提示] 挂失成功！" << endl;
-            system("pause");
+            if (bank.log->report_loss() == 0)
+            {
+                cout << "[提示] 无法挂失管理员账户！" << endl;
+                system("pause");
+            }
+            else
+            {
+                cout << "[提示] 挂失成功！" << endl;
+                system("pause");
+                return 0;
+            }
+            break;
+        case 5:
+            if (bank.log->report_loss() == 0)
+            {
+                cout << "[提示] 无法为管理员账户销户！" << endl;
+                system("pause");
+            }
+            else
+            {
+                bank.log->change_status(3);
+                cout << "[提示] 销户成功！" << endl;
+                system("pause");
+                return 0;
+            }
             break;
         case 0:
-            return 0;
+            return 1;
         default:
             break;
         }
     }
-    return 0;
+    return 1;
 }
 int loginpage(Bank &bank)
 {
@@ -243,7 +404,7 @@ int loginpage(Bank &bank)
         cout << "****************************" << endl;
         cout << "请输入您要选择的功能代码:" << endl;
         cout << "1.账户管理" << endl;
-        cout << "2.交易管理(未开放)" << endl;
+        cout << "2.交易管理" << endl;
         cout << "3.查询信息" << endl;
         cout << "0.退出" << endl;
         if (bank.log->showstatus() == 4)
@@ -252,7 +413,8 @@ int loginpage(Bank &bank)
         switch (cho)
         {
         case 1:
-            usermanage(bank);
+            if (usermanage(bank) == 0)
+                return 0;
             break;
         case 2:
             finance(bank);
@@ -263,6 +425,7 @@ int loginpage(Bank &bank)
             system("pause");
             break;
         case 0:
+            bank.Logout();
             return 0;
         case 5:
             if (bank.log->showstatus() == 4)
@@ -299,6 +462,16 @@ int userlogin(Bank &bank)
         cout << "[错误] 用户不存在！！请重新输入" << endl;
         system("pause");
     }
+    else if (bank.Login(cardid, cardpswd) == 3)
+    {
+        cout << "[错误] 账户处于挂失状态！" << endl;
+        system("pause");
+    }
+    else if (bank.Login(cardid, cardpswd) == 4)
+    {
+        cout << "[错误] 用户不存在！！请重新输入！" << endl;
+        system("pause");
+    }
     else
     {
         cout << "[错误] 未知错误！" << endl;
@@ -315,6 +488,8 @@ int userregister(Bank &bank)
     string passwd;
     string repasswd;
     system("cls");
+    cout << "您已进入-》注册页面" << endl;
+    cout << "****************************" << endl;
     cout << "请输入您的邮箱：" << endl;
     cin >> email;
     cout << "请输入您的姓名：" << endl;
@@ -355,6 +530,9 @@ int choice(Bank &bank)
         case 2:
             userregister(bank);
             break;
+        case 3:
+            forgetpasswd(bank);
+            break;
         case 0:
             return 0;
         default:
@@ -365,6 +543,7 @@ int choice(Bank &bank)
 }
 int main()
 {
+    cout.setf(ios::fixed, ios::floatfield);
     Bank bank;
     system("cls");
     cout << "****************************" << endl;
