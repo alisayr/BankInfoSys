@@ -18,10 +18,53 @@ int start(Bank &bank)
     NowDate[2] = StartDate[2];
     bank.CBank(str);
     system("cls");
-    cout << "[重要] 初始化安装完毕，管理员默认卡号:101，感谢您的使用！" << endl;
+    cout << "[重要] 初始化安装完毕，管理员默认卡号:101，感谢您的使用！\n[重要] 请及时修改管理员信息，以免损失！" << endl;
     system("pause");
     system("cls");
     return 1;
+}
+
+int forgetpasswd(Bank &bank)
+{
+    string str;
+    int cho;
+    int id;
+    system("cls");
+    cout << "请选择您的找回方式：\t1.找回密码\t2.找回卡号" << endl;
+    cin >> cho;
+    if (cho == 1)
+    {
+        system("cls");
+        cout << "请输入您的卡号:";
+        cin >> id;
+        if (bank.Find(id) == NULL)
+        {
+            cout << "用户不存在！" << endl;
+            system("pause");
+            return 0;
+        }
+        else
+        {
+            cout << "请输入您的邮箱:";
+            cin >> str;
+            if (bank.Find(id)->showemail() == str)
+            {
+                cout << "验证成功！请设置新的密码：";
+                cin >> str;
+                bank.Find(id)->change_passwd(str);
+                cout << "修改成功！" << endl;
+                system("pause");
+                return 1;
+            }
+            else
+            {
+                cout << "邮箱错误！找回失败！" << endl;
+                system("pause");
+                return 0;
+            }
+        }
+    }
+    return 0;
 }
 int set_time()
 {
@@ -116,9 +159,11 @@ int managepage(Bank &bank)
 }
 int finance(Bank &bank)
 {
+    int id;
     int cho;
     int sum;
     int tim;
+    double db;
     string str;
     while (1)
     {
@@ -166,7 +211,85 @@ int finance(Bank &bank)
             cout << "6.五年" << endl;
             cin >> tim;
             bank.log->time_deposit_add(sum, interest[tim - 1] * sum * time_deposit[tim - 1] / 360, time_deposit[tim - 1]);
+            system("cls");
             cout << "[提示] 存款成功！" << endl;
+            system("pause");
+            break;
+        case 4:
+            system("cls");
+            db = bank.log->time_deposit();
+            if (db == 0)
+                cout << "[错误] 您没有定期存款！" << endl;
+            else if (db == -1)
+                cout << "[错误] 还没有到取款日期！" << endl;
+            else if (db == -2)
+                cout << "[错误] 未知错误！" << endl;
+            else
+                cout << "[提示] 取款成功！本利和一共" << db << "元！" << endl;
+            system("pause");
+            break;
+        case 5:
+            system("cls");
+            cout << "请选择转账方式：\t1.单一用户\t2.多个用户" << endl;
+            cin >> cho;
+            if (cho == 1)
+            {
+                cout << "请输入目标账户的卡号：";
+                cin >> id;
+                if (bank.Find(id) == NULL)
+                {
+                    cout << "[错误] 目标账户不存在！" << endl;
+                    system("pause");
+                    break;
+                }
+                else
+                {
+                    cout << "请输入转账金额:";
+                    cin >> sum;
+                    tim = bank.log->transfer_money(bank.Find(id), sum);
+                    if (tim == 3)
+                        cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
+                    else if (tim == 2)
+                        cout << "[错误] 目标账户处于销户状态，无法接受转账！" << endl;
+                    else if (tim == 0)
+                        cout << "[错误] 扣款失败!余额不足!" << endl;
+                    else
+                        cout << "转账成功！" << endl;
+                    system("pause");
+                    return 0;
+                }
+            }
+            else if (cho == 2)
+            {
+                while (1)
+                {
+                    cout << "请输入目标账户的卡号(输入0退出)：";
+                    cin >> id;
+                    if (id == 0)
+                        return 0;
+                    if (bank.Find(id) == NULL)
+                    {
+                        cout << "[错误] 目标账户不存在！" << endl;
+                        system("pause");
+                    }
+
+                    else
+                    {
+                        cout << "请输入转账金额:";
+                        cin >> sum;
+                        tim = bank.log->transfer_money(bank.Find(id), sum);
+                        if (tim == 3)
+                            cout << "[错误] 目标账户是管理员，无法接受转账！" << endl;
+                        else if (tim == 2)
+                            cout << "[错误] 目标账户处于销户状态，无法接受转账！" << endl;
+                        else if (tim == 0)
+                            cout << "[错误] 扣款失败!余额不足!" << endl;
+                        else
+                            cout << "转账成功！" << endl;
+                        system("pause");
+                    }
+                }
+            }
             system("pause");
             break;
         case 0:
@@ -354,6 +477,9 @@ int choice(Bank &bank)
             break;
         case 2:
             userregister(bank);
+            break;
+        case 3:
+            forgetpasswd(bank);
             break;
         case 0:
             return 0;

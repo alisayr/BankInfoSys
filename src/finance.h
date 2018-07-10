@@ -16,7 +16,7 @@ class Time_Deposit //定期存款
 {
 public:
   int time_deposit_add(double money, double D_Interest, int D_Time); //定期存款
-  int time_deposit_sub();                                            //定期取款
+  double time_deposit_sub();                                            //定期取款
   double show_time_deposit_sum();
   double show_time_deposit_interest();
   int show_time_deposit_date();
@@ -35,6 +35,7 @@ public:
   int demand_deposit_add(double money);     //活期存款
   int demand_deposit_sub(double sub_money); //活期取款
   int settle_interest();                    //结算利息
+  double time_deposit();
   double show_balance();
   double show_demand_deposit();
   Finance();
